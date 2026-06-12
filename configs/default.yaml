@@ -1,0 +1,16 @@
+model:
+  path: "weights/yolo11m_safety.pt"
+  confidence: 0.35
+  iou: 0.5
+  imgsz: 640
+
+classes:
+  vest: ["safety_vest", "reflective_vest", "vest"]
+  no_vest: ["no_safety_vest", "no_vest"]
+
+output:
+  save_json: true
+  save_annotated: true
+
+video:
+  enable_tracking: true

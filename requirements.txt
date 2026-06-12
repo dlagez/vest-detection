@@ -1,0 +1,7 @@
+ultralytics
+supervision
+opencv-python
+pyyaml
+fastapi
+uvicorn
+python-multipart

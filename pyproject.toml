@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vest-detection"
+version = "0.1.0"
+description = "Reflective vest detection using YOLO"
+requires-python = ">=3.10"
+dependencies = [
+    "ultralytics",
+    "supervision",
+    "opencv-python",
+    "pyyaml",
+    "fastapi",
+    "uvicorn",
+    "python-multipart",
+]
+
+[project.scripts]
+infer-image = "scripts.infer_image:main"
+infer-video = "scripts.infer_video:main"
+infer-camera = "scripts.infer_camera:main"
+train-yolo = "scripts.train_yolo:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
