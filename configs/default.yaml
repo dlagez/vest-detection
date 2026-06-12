@@ -5,8 +5,22 @@ model:
   imgsz: 640
 
 classes:
-  vest: ["safety_vest", "reflective_vest", "vest"]
-  no_vest: ["no_safety_vest", "no_vest"]
+  # All classes supported by weights/yolo11m_safety.pt
+  names:
+    0: hat
+    1: nohat
+    2: novest
+    3: person
+    4: vest
+  # Classes to detect (by name or index). Empty = all.
+  filter: [4]
+  # Friendly display names (key: class_name -> display_label)
+  display_names:
+    hat: "安全帽"
+    nohat: "未戴安全帽"
+    novest: "未穿反光衣"
+    person: "人员"
+    vest: "穿戴反光衣"
 
 output:
   save_json: true

@@ -7,9 +7,19 @@ from vest_detection.visualizer import DetectionVisualizer
 
 
 class ImagePipeline:
-    def __init__(self, model_path: str, confidence: float = 0.35):
-        self.detector = VestDetector(model_path=model_path, confidence=confidence)
-        self.visualizer = DetectionVisualizer()
+    def __init__(
+        self,
+        model_path: str,
+        confidence: float = 0.35,
+        class_filter: list | None = None,
+        display_names: dict | None = None,
+    ):
+        self.detector = VestDetector(
+            model_path=model_path,
+            confidence=confidence,
+            class_filter=class_filter,
+        )
+        self.visualizer = DetectionVisualizer(display_names=display_names)
 
     def run(self, image_path: str, output_path: str, json_path: str = None):
         image = cv2.imread(image_path)

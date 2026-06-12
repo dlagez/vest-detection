@@ -38,9 +38,15 @@ def main():
     output_path = args.output or str(output_dir / f"{input_path.stem}_result.mp4")
     json_path = args.json or str(output_dir / f"{input_path.stem}_result.json")
 
+    class_cfg = config.get("classes", {})
+    class_filter = class_cfg.get("filter") or None  # empty list -> None (detect all)
+    display_names = class_cfg.get("display_names", None)
+
     pipeline = VideoPipeline(
         model_path=args.model,
-        confidence=args.conf
+        confidence=args.conf,
+        class_filter=class_filter,
+        display_names=display_names,
     )
 
     result = pipeline.run(

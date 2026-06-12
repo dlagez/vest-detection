@@ -5,17 +5,30 @@ logger = logging.getLogger(__name__)
 
 
 class CameraPipeline:
-    def __init__(self, model_path: str, confidence: float = 0.35, camera_id: int = 0):
+    def __init__(
+        self,
+        model_path: str,
+        confidence: float = 0.35,
+        camera_id: int = 0,
+        class_filter: list | None = None,
+        display_names: dict | None = None,
+    ):
         self.model_path = model_path
         self.confidence = confidence
         self.camera_id = camera_id
+        self.class_filter = class_filter
+        self.display_names = display_names
 
     def run(self, output_path: str = None, duration: int = None):
         from vest_detection.detector import VestDetector
         from vest_detection.visualizer import DetectionVisualizer
 
-        detector = VestDetector(model_path=self.model_path, confidence=self.confidence)
-        visualizer = DetectionVisualizer()
+        detector = VestDetector(
+            model_path=self.model_path,
+            confidence=self.confidence,
+            class_filter=self.class_filter,
+        )
+        visualizer = DetectionVisualizer(display_names=self.display_names)
 
         cap = cv2.VideoCapture(self.camera_id)
         if not cap.isOpened():

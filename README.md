@@ -53,16 +53,13 @@ pip install -e .
 ### 2. 视频推理
 
 ```bash
-python scripts/infer_video.py \
-  --input data/videos/video.mp4
+python scripts/infer_video.py --input data/videos/video.mp4
 ```
 
 ### 3. 图片推理
 
 ```bash
-python scripts/infer_image.py \
-  --input data/images/test.jpg \
-  --model weights/yolo11m_safety.pt
+python scripts/infer_image.py --input data/images/test.jpg \
 ```
 
 ### 4. 摄像头实时检测

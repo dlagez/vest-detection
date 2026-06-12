@@ -4,7 +4,13 @@
       "Bash(grep -v '^$')",
       "Bash(python3 -m venv --help)",
       "Bash(ffprobe -v error -show_format -show_streams /home/zp/code/vest-detection/outputs/20260612_021524/video_result.mp4)",
-      "Bash(ffprobe -v error -show_format -show_streams /home/zp/code/vest-detection/outputs/videos/result.mp4)"
+      "Bash(ffprobe -v error -show_format -show_streams /home/zp/code/vest-detection/outputs/videos/result.mp4)",
+      "Bash(pkill -f \"infer_video.py\")",
+      "Bash(apt-get update *)",
+      "Bash(apt-get install *)",
+      "Bash(.venv/bin/python *)",
+      "Bash(python3 *)",
+      "Bash(PYTHONPATH=src python3 *)"
     ]
   }
 }
