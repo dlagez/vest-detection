@@ -54,9 +54,7 @@ pip install -e .
 
 ```bash
 python scripts/infer_video.py \
-  --input data/videos/video.mp4 \
-  --model weights/yolo11m_safety.pt \
-  --conf 0.35
+  --input data/videos/video.mp4
 ```
 
 ### 3. 图片推理

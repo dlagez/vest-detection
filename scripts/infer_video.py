@@ -3,18 +3,31 @@ import logging
 from datetime import datetime
 from pathlib import Path
 
+import yaml
+
 from vest_detection.pipelines.video_pipeline import VideoPipeline
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
+CONFIG_PATH = Path(__file__).parent.parent / "configs" / "default.yaml"
+
+
+def load_config():
+    with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+        return yaml.safe_load(f)
+
 
 def main():
+    config = load_config()
+    default_model = config["model"]["path"]
+    default_conf = config["model"]["confidence"]
+
     parser = argparse.ArgumentParser(description="视频反光背心推理")
     parser.add_argument("--input", type=str, default="data/videos/video.mp4", help="输入视频路径")
     parser.add_argument("--output", type=str, default=None, help="输出视频路径（默认outputs/视频名_时间戳/）")
     parser.add_argument("--json", type=str, default=None, help="输出JSON路径（默认outputs/视频名_时间戳/）")
-    parser.add_argument("--model", type=str, default="weights/best.pt", help="模型路径")
-    parser.add_argument("--conf", type=float, default=0.35, help="置信度阈值")
+    parser.add_argument("--model", type=str, default=default_model, help="模型路径")
+    parser.add_argument("--conf", type=float, default=default_conf, help="置信度阈值")
     args = parser.parse_args()
 
     input_path = Path(args.input)
