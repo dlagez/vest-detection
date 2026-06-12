@@ -1,5 +1,6 @@
 import argparse
 import logging
+import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -7,7 +8,15 @@ import yaml
 
 from vest_detection.pipelines.video_pipeline import VideoPipeline
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+# Fix Chinese garbled output in terminal
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler(sys.stdout)],
+)
 
 CONFIG_PATH = Path(__file__).parent.parent / "configs" / "default.yaml"
 
@@ -40,13 +49,12 @@ def main():
 
     class_cfg = config.get("classes", {})
     class_filter = class_cfg.get("filter") or None  # empty list -> None (detect all)
-    display_names = class_cfg.get("display_names", None)
+    # Use raw class names (no display_names mapping) to avoid encoding issues
 
     pipeline = VideoPipeline(
         model_path=args.model,
         confidence=args.conf,
         class_filter=class_filter,
-        display_names=display_names,
     )
 
     result = pipeline.run(
