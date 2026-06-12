@@ -54,9 +54,7 @@ pip install -e .
 
 ```bash
 python scripts/infer_video.py \
-  --input outputs/videos/video.mp4 \
-  --output outputs/videos/result.mp4 \
-  --json outputs/json/result.json \
+  --input data/videos/video.mp4 \
   --model weights/yolo11m_safety.pt \
   --conf 0.35
 ```
@@ -66,8 +64,6 @@ python scripts/infer_video.py \
 ```bash
 python scripts/infer_image.py \
   --input data/images/test.jpg \
-  --output outputs/images/result.jpg \
-  --json outputs/json/result.json \
   --model weights/yolo11m_safety.pt
 ```
 

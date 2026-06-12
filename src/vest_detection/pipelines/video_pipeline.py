@@ -26,7 +26,7 @@ class VideoPipeline:
         total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-        fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+        fourcc = cv2.VideoWriter_fourcc(*"avc1")
         out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
 
         all_results = []

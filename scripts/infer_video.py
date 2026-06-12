@@ -1,5 +1,7 @@
 import argparse
 import logging
+from datetime import datetime
+from pathlib import Path
 
 from vest_detection.pipelines.video_pipeline import VideoPipeline
 
@@ -8,12 +10,20 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 
 def main():
     parser = argparse.ArgumentParser(description="视频反光背心推理")
-    parser.add_argument("--input", type=str, default="outputs/videos/video.mp4", help="输入视频路径")
-    parser.add_argument("--output", type=str, default="outputs/videos/result.mp4", help="输出视频路径")
-    parser.add_argument("--json", type=str, default="outputs/json/result.json", help="输出JSON路径")
+    parser.add_argument("--input", type=str, default="data/videos/video.mp4", help="输入视频路径")
+    parser.add_argument("--output", type=str, default=None, help="输出视频路径（默认outputs/视频名_时间戳/）")
+    parser.add_argument("--json", type=str, default=None, help="输出JSON路径（默认outputs/视频名_时间戳/）")
     parser.add_argument("--model", type=str, default="weights/best.pt", help="模型路径")
     parser.add_argument("--conf", type=float, default=0.35, help="置信度阈值")
     args = parser.parse_args()
+
+    input_path = Path(args.input)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_dir = Path("outputs") / f"{input_path.stem}_{timestamp}"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    output_path = args.output or str(output_dir / f"{input_path.stem}_result.mp4")
+    json_path = args.json or str(output_dir / f"{input_path.stem}_result.json")
 
     pipeline = VideoPipeline(
         model_path=args.model,
@@ -22,11 +32,13 @@ def main():
 
     result = pipeline.run(
         video_path=args.input,
-        output_path=args.output,
-        json_path=args.json
+        output_path=output_path,
+        json_path=json_path
     )
 
     logging.info(f"推理完成，共处理 {len(result)} 帧")
+    logging.info(f"输出视频: {output_path}")
+    logging.info(f"输出JSON: {json_path}")
 
 
 if __name__ == "__main__":
